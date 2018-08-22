@@ -14,6 +14,10 @@ public abstract class BaseContract {
 	public String TABLE_NAME;
 	public Map<String, String> FIELDS;
 	
+	public BaseContract() {
+		
+	}
+	
 	public String CREATE_TABLE() {
 		return "CREATE TABLE IF NOT EXISTS " + this.TABLE_NAME + "("+this.SELECTABLE_FIELDS()+")";
 	};
@@ -22,11 +26,21 @@ public abstract class BaseContract {
 		StringBuilder sb = new StringBuilder();
 		int i = 0;
 
+//		for(String key: this.FIELDS.keySet()) {
+//			sb.append(key);
+//			sb.append(this.FIELDS.get(key));
+//			i++;
+//			if (i != this.FIELDS.size()) {
+//				sb.append(",");
+//			}
+//		}
+		
+		
 		for (; i < this.FIELDS.size() - 1; i++) {
-			sb.append(this.FIELDS.get(i) + ",");
+			sb.append(this.FIELDS.keySet().toArray()[i] + " " + this.FIELDS.get(this.FIELDS.keySet().toArray()[i])  +",");
 		}
 
-		sb.append(this.FIELDS.get(i));
+		sb.append(this.FIELDS.keySet().toArray()[i] + " " + this.FIELDS.get(this.FIELDS.keySet().toArray()[i]));
 
 		return sb.toString();
 	}		

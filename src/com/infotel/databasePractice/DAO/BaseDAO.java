@@ -11,7 +11,7 @@ import com.infotel.databasePractice.contract.UserContract;
 import com.infotel.databasePractice.database.MySQLRequest;
 import com.infotel.databasePractice.model.User;
 
-public abstract class BaseDAO {
+public abstract class BaseDAO<T> {
 	protected MySQLRequest rq;
 	protected BaseContract contract;
 
@@ -19,13 +19,17 @@ public abstract class BaseDAO {
 		this.rq = new MySQLRequest();
 	}
 	
-	protected abstract Object set(ResultSet rs);
+	public void createTable() {
+		this.rq.other(this.contract.CREATE_TABLE());
+	}
+	
+	protected abstract T set(ResultSet rs);
 
-	public Object select(int id) {
+	public T select(int id) {
 		Object obj = new Object();
 		ResultSet rs = this.rq
-				.select("SELECT * FROM " + contract.TABLE_NAME 
-						+ " WHERE " + " " + contract.FIELDS.get("id") + " = " + id);
+				.select("SELECT * FROM " + this.contract.TABLE_NAME 
+						+ " WHERE " + " " +this.contract.FIELDS.get("id") + " = " + id);
 		try {
 			while (rs.next()) {
 				obj = this.set(rs);
@@ -34,12 +38,12 @@ public abstract class BaseDAO {
 			e.printStackTrace();
 		}
 
-		return obj;
+		return (T) obj;
 	}
 
-	public List<Object> select() {
-		List<Object> objs = new ArrayList<Object>();
-		ResultSet rs = this.rq.select("SELECT * FROM " + contract.TABLE_NAME);
+	public List<T> select() {
+		List<T> objs = new ArrayList<T>();
+		ResultSet rs = this.rq.select("SELECT * FROM " + this.contract.TABLE_NAME);
 		
 		try {
 			while (rs.next()) {
@@ -52,17 +56,17 @@ public abstract class BaseDAO {
 		return objs;
 	}
 
-	public abstract void insert(Object obj);
+	public abstract void insert(T obj);
 
-	public abstract void update(Object obj);
+	public abstract void update(T obj);
 
-	public abstract void delete(Object obj);
+	public abstract void delete(T obj);
 	
 	public void delete() {
-		this.rq.other("DELETE FROM "+contract.TABLE_NAME);
+		this.rq.other("DELETE FROM "+this.contract.TABLE_NAME);
 	}
 
 	public void reset() {
-		this.rq.other("ALTER TABLE "+contract.TABLE_NAME+" AUTO_INCREMENT = 1");
+		this.rq.other("ALTER TABLE "+this.contract.TABLE_NAME+" AUTO_INCREMENT = 1");
 	}
 }

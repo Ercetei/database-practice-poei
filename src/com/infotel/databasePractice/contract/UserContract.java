@@ -5,10 +5,9 @@ import java.util.Map;
 
 public class UserContract extends BaseContract{
 
-	protected String TABLE_NAME = "user";
-	protected Map<String, String> FIELDS;
 	
 	public UserContract() {
+		this.TABLE_NAME = "user";
 		this.FIELDS = new HashMap<String, String>();
 		this.FIELDS.put(TABLE_NAME+".id", "int AUTO_INCREMENT PRIMARY KEY");
 		this.FIELDS.put(TABLE_NAME+".name", "VARCHAR(255)");

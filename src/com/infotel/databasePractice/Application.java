@@ -14,9 +14,12 @@ public class Application {
 	public static void main(String[] args) {
 		MySQLRequest req = new MySQLRequest();
 		
-		req.other(UserContract.CREATE_TABLE());
+//		UserContract uc = new UserContract();
+//		
+//		req.other(uc.CREATE_TABLE());
 		
 		UserDAO crud = new UserDAO();
+		crud.createTable();
 		crud.delete();
 		crud.reset();
 		

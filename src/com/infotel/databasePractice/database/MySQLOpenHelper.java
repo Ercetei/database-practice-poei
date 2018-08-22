@@ -19,6 +19,7 @@ public class MySQLOpenHelper {
 			dataSource.setServerName("localhost");
 			dataSource.setDatabaseName("dbpracticePOEI2018");
 			dataSource.setServerTimezone("UTC");
+			dataSource.setUseSSL(false);
 			dataSource.setCreateDatabaseIfNotExist(true);	
 			this.db = dataSource.getConnection();
 		} catch (SQLException e) {
